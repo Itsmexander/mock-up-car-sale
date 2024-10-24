@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Register from '@/Register.vue'
 import App from '@/App.vue'
-import ProductComponent from '@/components/ProductComponent.vue'
+
+import StoreComponent from '@/components/StoreComponent.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/auth', name: 'login', component: App },
+  { path: '/auth', name: 'Login', component: App },
   { path: '/register', name: 'Register', component: Register },
-  { path: '/store', name: 'Store', component: ProductComponent },
+  { path: '/store', name: 'Store', component: StoreComponent },
 ]
 
 const router = new VueRouter({

@@ -15,6 +15,7 @@
                   placeholder="Email"
                 />
               </div>
+              <br />
               <div class="form-group">
                 <label>Password</label>
                 <input
@@ -24,6 +25,7 @@
                   placeholder="Password"
                 />
               </div>
+              <br />
               <button type="submit" class="btn btn-primary">Login</button>
             </form>
             <div class="mt-3">

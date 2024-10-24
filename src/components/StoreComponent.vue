@@ -27,7 +27,7 @@
 
 <script>
 import axios from 'axios'
-
+import CarService from '../CarService'
 export default {
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
   methods: {
     fetchCars() {
       axios
-        .get('/api/cars')
+      CarService.getall('/store')
         .then(response => {
           this.cars = response.data
         })

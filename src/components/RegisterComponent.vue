@@ -12,8 +12,9 @@
                   v-model="user.firstName"
                   class="form-control"
                   type="text"
-                  placeholder="Enter first name"
+                  placeholder="Enter your first name"
                 />
+                <br />
               </div>
               <div class="form-group">
                 <label>Last Name</label>
@@ -21,9 +22,10 @@
                   v-model="user.surname"
                   class="form-control"
                   type="text"
-                  placeholder="Enter last name"
+                  placeholder="Enter your last name"
                 />
               </div>
+              <br />
               <div class="form-group">
                 <label>Address</label>
                 <input
@@ -32,6 +34,7 @@
                   type="text"
                   placeholder="Enter your address"
                 />
+                <br />
                 <div class="form-group">
                   <label>Tel No.</label>
                   <input
@@ -41,6 +44,7 @@
                     placeholder="Enter your phone number"
                   />
                 </div>
+                <br />
               </div>
               <div class="form-group">
                 <label>Email</label>
@@ -48,18 +52,20 @@
                   v-model="user.email"
                   class="form-control"
                   type="email"
-                  placeholder="Enter email address"
+                  placeholder="Enter your email address"
                 />
               </div>
+              <br />
               <div class="form-group">
                 <label>Password</label>
                 <input
                   v-model="user.password"
                   class="form-control"
                   type="password"
-                  placeholder="Enter password"
+                  placeholder="Enter your password"
                 />
               </div>
+              <br />
               <button type="submit" class="btn btn-primary">Register</button>
             </form>
             <div class="mt-3">
