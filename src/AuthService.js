@@ -10,6 +10,10 @@ class AuthService {
   login(user) {
     return axios.post(API_URL + 'login', user)
   }
+
+  changePassword(passwordChangeRequest) {
+    return axios.post(API_URL + 'passwordChange', passwordChangeRequest)
+  }
 }
 
 export default new AuthService()

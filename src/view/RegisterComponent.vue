@@ -100,6 +100,8 @@ export default {
   methods: {
     registerUser() {
       AuthService.register(this.user).then(response => {
+        alert(`Registeration success! You will be redirect to login page.`)
+        this.$router.push({ name: 'Login' })
         console.log(response.data)
       })
     },

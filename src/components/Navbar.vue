@@ -5,7 +5,12 @@
         <li class="nav-item"><a href="/store">Store</a></li>
         <li class="nav-item"><a href="/register">Register</a></li>
         <li class="nav-item"><a href="/login">Login</a></li>
-        <li class="nav_item"><a href="/car/register_car">register a car</a></li>
+        <li class="nav-item">
+          <a href="/car/register_car">register a new car</a>
+        </li>
+        <li class="nav-item">
+          <a href="/passwordchange">change password</a>
+        </li>
       </ul>
     </nav>
   </div>

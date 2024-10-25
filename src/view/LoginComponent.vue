@@ -58,7 +58,9 @@ export default {
   methods: {
     loginUser() {
       AuthService.login(this.user).then(response => {
-        console.log(response.data)
+        alert(`login sucessful!`)
+        this.$router.push({ name: 'Store' })
+        // console.log(response.data)
       })
     },
   },

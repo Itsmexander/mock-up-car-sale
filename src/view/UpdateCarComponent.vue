@@ -3,13 +3,13 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header">Car registration</div>
+          <div class="card-header">Car info update</div>
           <div class="card-body">
-            <form @submit.prevent="registerCar">
+            <form @submit.prevent="updateCar">
               <div class="form-group">
                 <label>Car Name</label>
                 <input
-                  v-model="car.car_name"
+                  v-model="car.carName"
                   class="form-control"
                   type="text"
                   placeholder="Enter your car name"
@@ -56,7 +56,7 @@
                 />
               </div>
               <br />
-              <button type="submit" class="btn btn-primary">Register</button>
+              <button type="submit" class="btn btn-primary">confirm</button>
             </form>
           </div>
         </div>
@@ -66,26 +66,30 @@
 </template>
 
 <script>
-import CarService from '../CarService'
+import CarService from '@/CarService'
 
 export default {
   data() {
     return {
       car: {
-        car_id: '',
+        car_id: 1,
         carName: '',
         price: '',
         carDesc: '',
         manufacturer: '',
-        manufacturedYear: '',
+        manufacturedYear: 1,
       },
     }
   },
   methods: {
-    registerCar() {
-      CarService.register(this.car).then(response => {
-        console.log(response.data)
-      })
+    updateCar() {
+      CarService.updateCar(this.car.car_id, this.car)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
     },
   },
 }

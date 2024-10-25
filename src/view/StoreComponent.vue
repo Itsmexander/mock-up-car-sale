@@ -9,6 +9,7 @@
           <th>Description</th>
           <th>Manufacturer</th>
           <th>Year</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +20,11 @@
           <td>{{ car.carDesc }}</td>
           <td>{{ car.manufacturer }}</td>
           <td>{{ car.manufacturedYear }}</td>
+          <td>
+            <button @click="handleViewClick(car.carId)">view details</button>
+            <button @click="handleUpdateClick(car.carId)">Update Info</button>
+            <button @click="handleDeleteClick(car.carId)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -27,7 +33,8 @@
 
 <script>
 import axios from 'axios'
-import CarService from '../CarService'
+import CarService from '@/CarService'
+
 export default {
   data() {
     return {
@@ -38,15 +45,25 @@ export default {
     this.fetchCars()
   },
   methods: {
-    fetchCars() {
-      axios
-      CarService.getall('/store')
-        .then(response => {
-          this.cars = response.data
-        })
-        .catch(error => {
-          console.error('There was an error fetching the cars!', error)
-        })
+    async fetchCars() {
+      try {
+        const response = await axios.get('http://localhost:8082/store')
+        this.cars = response.data
+      } catch (error) {
+        console.error('Error fetching cars:', error)
+      }
+    },
+    handleViewClick(id) {
+      alert(`Button 'view' clicked for item with ID: ${id}`)
+    },
+    handleUpdateClick(id) {
+      alert(`Button 'update' clicked for item with ID: ${id}`)
+      this.$router.push({ name: 'UpdateCar', params: { id: id } })
+    },
+    handleDeleteClick(id) {
+      alert(`Button 'Delete' clicked for item with ID: ${id}`)
+      CarService.delete(id)
+      location.reload()
     },
   },
 }
