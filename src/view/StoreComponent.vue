@@ -15,13 +15,12 @@
       <tbody>
         <tr v-for="car in cars" :key="car.carId">
           <td>{{ car.carId }}</td>
-          <td>{{ car.carName }}</td>
-          <td>{{ car.price }}</td>
-          <td>{{ car.carDesc }}</td>
+          <td>{{ car.name }}</td>
+          <td>{{ parseFloat(car.price).toFixed(2) }}</td>
+          <td>{{ car.notation }}</td>
           <td>{{ car.manufacturer }}</td>
           <td>{{ car.manufacturedYear }}</td>
           <td>
-            <button @click="handleViewClick(car.carId)">view details</button>
             <button @click="handleUpdateClick(car.carId)">Update Info</button>
             <button @click="handleDeleteClick(car.carId)">Delete</button>
           </td>
@@ -52,9 +51,6 @@ export default {
       } catch (error) {
         console.error('Error fetching cars:', error)
       }
-    },
-    handleViewClick(id) {
-      alert(`Button 'view' clicked for item with ID: ${id}`)
     },
     handleUpdateClick(id) {
       alert(`Button 'update' clicked for item with ID: ${id}`)

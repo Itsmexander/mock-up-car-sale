@@ -1,16 +1,17 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
     <nav class="navbar">
       <ul class="nav-list">
         <li class="nav-item"><a href="/store">Store</a></li>
         <li class="nav-item"><a href="/register">Register</a></li>
+        <li class="nav-item">
+          <a href="/registerCar">Register a new car</a>
+        </li>
+        <li class="nav-item">
+          <a href="/passwordChange">Change password</a>
+        </li>
         <li class="nav-item"><a href="/login">Login</a></li>
-        <li class="nav-item">
-          <a href="/car/register_car">register a new car</a>
-        </li>
-        <li class="nav-item">
-          <a href="/passwordchange">change password</a>
-        </li>
       </ul>
     </nav>
   </div>
@@ -18,7 +19,7 @@
 
 <script>
 export default {
-  name: 'Navbar',
+  name: 'NavBar',
 }
 </script>
 

@@ -1,33 +1,35 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const API_URL = 'http://localhost:8082/'
+const API_URL = 'http://localhost:8082/';
 
 class CarService {
   register(car) {
-    return axios.post(API_URL + 'cars/registerCar', car)
+    return axios.post(API_URL + 'registerCar', car);
   }
 
-  get(car) {
-    return axios.get(API_URL + 'car${id}', car)
+  get(id) {
+    return axios.get(`${API_URL}car/${id}`);
   }
 
-  getall(car) {
-    return axios.get(API_URL + 'store', car)
+  getAll() {
+    return axios.get(API_URL + 'store');
   }
+
   async delete(id) {
     return axios
       .delete(`${API_URL}deleteCar/${id}`)
       .then(response => {
-        alert('Car deleted successfully')
-        return response.data
+        alert('Car deleted successfully');
+        return response.data;
       })
       .catch(error => {
-        alert('Error deleting car: ' + error.response.data.message)
-      })
+        alert('Error deleting car: ' + error.response.data.message);
+      });
   }
+
   updateCar(id, carInfoUpdateRequest) {
-    return axios.put(`${API_URL}updateCar/${id}`, carInfoUpdateRequest)
+    return axios.put(`${API_URL}updateCar/${id}`, carInfoUpdateRequest);
   }
 }
 
-export default new CarService()
+export default new CarService();
