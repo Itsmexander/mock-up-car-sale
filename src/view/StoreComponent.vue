@@ -6,18 +6,18 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Manufacturer</th>
-            <th>Year</th>
-            <th>Timestamp</th>
+            <th @click="sort('carId')">ID</th>
+            <th @click="sort('name')">Name</th>
+            <th @click="sort('price')">Price</th>
+            <th @click="sort('notation')">Description</th>
+            <th @click="sort('manufacturer')">Manufacturer</th>
+            <th @click="sort('manufacturedYear')">Year</th>
+            <th @click="sort('timestamp')">Timestamp</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="car in filteredCars" :key="car.carId">
+          <tr v-for="car in sortedCars" :key="car.carId">
             <td>{{ car.carId }}</td>
             <td>{{ car.name }}</td>
             <td>{{ parseFloat(car.price).toFixed(2) }} ฿</td>
@@ -43,68 +43,65 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios';
-import CarService from '@/CarService';
 import dateMixin from '@/mixins/dateMixin';
 
 export default {
   mixins: [dateMixin],
   data() {
     return {
-      cars: [],
       searchQuery: '',
+      cars: [],
       currentPage: 1,
       pageSize: 15,
-      totalPages: 0,
+      sortKey: 'carId',
+      sortOrder: 'asc'
     };
   },
-  created() {
-    this.fetchCars();
+  computed: {
+    filteredCars() {
+      return this.cars.filter(car => car.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    },
+    sortedCars() {
+      return this.filteredCars.sort((a, b) => {
+        let modifier = this.sortOrder === 'asc' ? 1 : -1;
+        if (a[this.sortKey] < b[this.sortKey]) return -1 * modifier;
+        if (a[this.sortKey] > b[this.sortKey]) return 1 * modifier;
+        return 0;
+      });
+    },
+    totalPages() {
+      return Math.ceil(this.filteredCars.length / this.pageSize);
+    }
   },
   methods: {
-    async fetchCars() {
-      try {
-        const response = await axios.get('http://localhost:8082/store', {
-          params: {
-            page: this.currentPage - 1,
-            size: this.pageSize
-          }
-      });
+    fetchCars() {
+    axios.get('http://localhost:8082/store', {
+      params: {
+        query: this.searchQuery,
+        sortBy: this.sortKey,
+        sortOrder: this.sortOrder,
+        page: this.currentPage - 1,
+        size: this.pageSize
+      }
+    })
+    .then(response => {
+      console.log(response.data); // Log the response data
       this.cars = response.data;
-
-      // Log the entire response object to debug
-      console.log('Response:', response);
-
-      // Access the header directly using the exact key
-      const totalItemsHeader = response.headers['x-total-count'];
-      console.log('Total Items Header:', totalItemsHeader);
-
-      const totalItems = parseInt(totalItemsHeader, 10);
-      console.log('Parsed Total Items:', totalItems);
-
-      this.totalPages = Math.ceil(totalItems / this.pageSize);
-      console.log('Total Pages:', this.totalPages);
-      } catch (error) {
-        console.error('Error fetching cars:', error);
+    })
+    .catch(error => {
+      console.error("There was an error fetching the cars!", error);
+    });
+  },
+    sort(key) {
+      if (this.sortKey === key) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        this.sortKey = key;
+        this.sortOrder = 'asc';
       }
-    },
-    handleUpdateClick(carId) {
-      console.log('ID:', carId);
-      alert(`Button 'update' clicked for item with ID: ${carId}`);
-      this.$router.push({ name: 'UpdateCar', params: { carId } });
-    },
-    handleDeleteClick(id) {
-      alert(`Button 'Delete' clicked for item with ID: ${id}`);
-      CarService.delete(id);
-      location.reload();
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-        this.fetchCars();
-      }
+      this.fetchCars();
     },
     prevPage() {
       if (this.currentPage > 1) {
@@ -112,19 +109,33 @@ export default {
         this.fetchCars();
       }
     },
-  },
-  computed: {
-    filteredCars() {
-      return this.cars.filter(car =>
-        car.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        car.manufacturer.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+        this.fetchCars();
+      }
+    },
+    handleUpdateClick(carId) {
+      console.log('ID:', carId);
+      alert(`Button 'update' clicked for item with ID: ${carId}`);
+      this.$router.push({ name: 'UpdateCar', params: { carId } });
+    },
+    handleDeleteClick(carId) {
+      alert(`Button 'Delete' clicked for item with ID: ${carId}`);
+      axios.delete(`/car/${carId}`)
+        .then(() => {
+          this.fetchCars();
+        })
+        .catch(error => {
+          console.error("There was an error deleting the car!", error);
+        });
     }
+  },
+  mounted() {
+    this.fetchCars();
   }
 };
 </script>
-
-
 
 <style scoped>
 .navbar {
