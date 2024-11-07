@@ -1,9 +1,9 @@
 <template>
-  <div class="container mt-5">
+  <div class="container mt-5" v-if="car">
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header">Car info update</div>
+          <div class="card-header">Car info update - ID: {{ car.id }}</div>
           <div class="card-body">
             <form @submit.prevent="updateCar">
               <div class="form-group">
@@ -73,24 +73,17 @@
       </div>
     </div>
   </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script>
 import CarService from '@/CarService';
 import { ref, onMounted } from 'vue';
-import { useRoute,useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   setup() {
-    const car = ref({
-      car_id: null, // Initialize as null or appropriate default value
-      name: '',
-      price: '',
-      notation: '',
-      manufacturer: '',
-      manufacturedYear: '',
-    });
-
+    const car = ref(null); // Initialize as null to handle loading state
     const errors = ref({
       name: '',
       price: '',
@@ -100,10 +93,13 @@ export default {
     });
 
     const router = useRouter();
-
     const route = useRoute();
 
     const fetchCarDetails = (id) => {
+      if (!id || isNaN(id)) {
+        console.error('Invalid car ID:', id);
+        return;
+      }
       CarService.get(id)
         .then(response => {
           car.value = response.data;
@@ -114,7 +110,7 @@ export default {
     };
 
     onMounted(() => {
-      const carId = 1; // Replace with the actual car ID you want to fetch
+      const carId = route.params.carId; 
       fetchCarDetails(carId);
     });
 
@@ -148,12 +144,12 @@ export default {
       validateManufacturedYear();
 
       if (!errors.value.name && !errors.value.price && !errors.value.notation && !errors.value.manufacturer && !errors.value.manufacturedYear) {
-        console.log('Updating car with ID:', route.params.id ); 
-        CarService.updateCar(route.params.id, car.value)
+        console.log('Updating car with ID:', route.params.id );
+        CarService.updateCar(route.params.carId, car.value)
           .then(response => {
             alert('Car info update success! You will be redirected to the store page.');
             router.push({ name: 'Store' });
-            console.log(response.data);
+            console.log(response.data)
           })
           .catch(error => {
             console.error('Error updating car:', error);

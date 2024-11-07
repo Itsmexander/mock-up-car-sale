@@ -21,8 +21,12 @@ const routes = [
       name: 'ChangePassword',
       component: ChangePasswordComponent,
     },
-    { path: '/updateCar/:id', name: 'UpdateCar', component: UpdateCarComponent },
-  ]
+    {
+      path: '/update-car/:carId',
+      name: 'UpdateCar',
+      component: UpdateCarComponent,
+      props: true
+    }  ]
 const router = createRouter({
     history: createWebHistory(),
     routes,

@@ -28,7 +28,7 @@ class CarService {
   }
 
   updateCar(id, carInfoUpdateRequest) {
-    return axios.put(`${API_URL}updateCar/${id}`, carInfoUpdateRequest);
+    return axios.put(`${API_URL}update-car/${id}`, carInfoUpdateRequest);
   }
 }
 
