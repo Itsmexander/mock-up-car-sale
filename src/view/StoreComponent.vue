@@ -1,6 +1,14 @@
 <template>
   <div>
-    <input v-model="searchQuery" placeholder="Search cars by name..." class="search-box" />
+    <input v-model="searchQuery" placeholder="Search cars by name, notation, etc." class="search-box" />
+    <br/>
+    <label for="priceRange">Price Range: {{ priceRange[0] }} ฿ - {{ priceRange[1] }} ฿</label>
+    <input type="range" v-model="priceRange[0]" min="0" max="2000" step="10" />
+    <input type="range" v-model="priceRange[1]" min="0" max="2000" step="10" />
+    <br/>
+    <label for="yearRange">Manufactured Year Range: {{ yearRange[0] }} - {{ yearRange[1] }}</label>
+    <input type="range" v-model="yearRange[0]" min="1920" max="2024" step="1" />
+    <input type="range" v-model="yearRange[1]" min="1920" max="2024" step="1" />
     <br/>
     <div v-if="filteredCars.length > 0">
       <table>
@@ -12,7 +20,7 @@
             <th @click="sort('notation')">Description</th>
             <th @click="sort('manufacturer')">Manufacturer</th>
             <th @click="sort('manufacturedYear')">Year</th>
-            <th @click="sort('timestamp')">Timestamp</th>
+            <th @click="sort('creation_timestamp')">Timestamp</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -24,7 +32,7 @@
             <td>{{ car.notation }}</td>
             <td>{{ car.manufacturer }}</td>
             <td>{{ car.manufacturedYear }}</td>
-            <td>{{ formatDate(car.timestamp) }}</td>
+            <td>{{ formatDate(car.creation_timestamp) }}</td>
             <td>
               <button @click="handleUpdateClick(car.carId)" class="action-button">Update Info on car id: {{ car.carId }}</button>
               <button @click="handleDeleteClick(car.carId)" class="action-button">Delete</button>
@@ -52,16 +60,25 @@ export default {
   data() {
     return {
       searchQuery: '',
+      priceRange: [0, 2000],
+      yearRange: [1920, 2024],
       cars: [],
       currentPage: 1,
       pageSize: 15,
       sortKey: 'carId',
-      sortOrder: 'asc'
+      sortOrder: 'asc',
+      totalPages: 0
     };
   },
   computed: {
     filteredCars() {
-      return this.cars.filter(car => car.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      return this.cars.filter(car => 
+        (car.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+         car.notation.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+         car.manufacturer.toLowerCase().includes(this.searchQuery.toLowerCase())) &&
+        car.price >= this.priceRange[0] && car.price <= this.priceRange[1] &&
+        car.manufacturedYear >= this.yearRange[0] && car.manufacturedYear <= this.yearRange[1]
+      );
     },
     sortedCars() {
       return this.filteredCars.sort((a, b) => {
@@ -70,28 +87,30 @@ export default {
         if (a[this.sortKey] > b[this.sortKey]) return 1 * modifier;
         return 0;
       });
-    },
-    totalPages() {
-      return Math.ceil(this.filteredCars.length / this.pageSize);
     }
   },
   methods: {
-    fetchCars() {
+  fetchCars() {
     axios.get('http://localhost:8082/store', {
       params: {
         query: this.searchQuery,
         sortBy: this.sortKey,
         sortOrder: this.sortOrder,
         page: this.currentPage - 1,
-        size: this.pageSize
+        size: this.pageSize,
+        minPrice: this.priceRange[0],
+        maxPrice: this.priceRange[1],
+        minYear: this.yearRange[0],
+        maxYear: this.yearRange[1]
       }
     })
     .then(response => {
-      console.log(response.data); // Log the response data
-      this.cars = response.data;
+      this.cars = response.data || [];
+      this.totalPages = Math.ceil(response.headers['x-total-count'] / this.pageSize);
     })
     .catch(error => {
       console.error("There was an error fetching the cars!", error);
+      this.cars = [];
     });
   },
     sort(key) {
