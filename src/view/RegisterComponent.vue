@@ -1,5 +1,7 @@
 <template>
-  <div class="container mt-5">
+  <div class="background-container">
+    <br />
+    <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
@@ -88,6 +90,7 @@
       </div>
     </div>
   </div>
+  </div>  
 </template>
 
 <script>
@@ -174,3 +177,14 @@ export default {
   },
 }
 </script>
+<style>
+.background-container {
+  background-image: url('@/assets/Designer.jpeg'); /* Adjust the path as needed */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  position: relative;
+  opacity: 0.8;
+}
+</style>

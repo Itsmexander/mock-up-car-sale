@@ -1,73 +1,76 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">Car registration</div>
-          <div class="card-body">
-            <form @submit.prevent="registerCar">
-              <div class="form-group">
-                <label>Car Name</label>
-                <input
-                  v-model="car.name"
-                  class="form-control"
-                  type="text"
-                  placeholder="Enter your car name"
-                  @blur="validateCarName"
-                />
-                <span v-if="errors.name" class="text-danger">{{ errors.name }}</span>
-              </div>
-              <br />
-              <div class="form-group">
-                <label>Price</label>
-                <input
-                  v-model="car.price"
-                  class="form-control"
-                  type="text"
-                  placeholder="Enter the price you want to set"
-                  @blur="validatePrice"
-                />
-                <span v-if="errors.price" class="text-danger">{{ errors.price }}</span>
-              </div>
-              <br />
-              <div class="form-group">
-                <label>Other Description</label>
-                <input
-                  v-model="car.notation"
-                  class="form-control"
-                  type="text"
-                  placeholder="Identifying description (e.g., Defects, Scratch)"
-                  @blur="validateNotation"
-                />
-                <span v-if="errors.notation" class="text-danger">{{ errors.notation }}</span>
-              </div>
-              <br />
-              <div class="form-group">
-                <label>Manufacturer</label>
-                <input
-                  v-model="car.manufacturer"
-                  class="form-control"
-                  type="text"
-                  placeholder="Manufacturer name"
-                  @blur="validateManufacturer"
-                />
-                <span v-if="errors.manufacturer" class="text-danger">{{ errors.manufacturer }}</span>
-              </div>
-              <br />
-              <div class="form-group">
-                <label>Manufacture Year</label>
-                <input
-                  v-model="car.manufacturedYear"
-                  class="form-control"
-                  type="text"
-                  placeholder="Year of manufacture"
-                  @blur="validateManufacturedYear"
-                />
-                <span v-if="errors.manufacturedYear" class="text-danger">{{ errors.manufacturedYear }}</span>
-              </div>
-              <br />
-              <button type="submit" class="btn btn-primary">Register</button>
-            </form>
+  <div  class="background-container">
+    <br />
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Car registration</div>
+            <div class="card-body">
+              <form @submit.prevent="registerCar">
+                <div class="form-group">
+                  <label>Car Name</label>
+                  <input
+                    v-model="car.name"
+                    class="form-control"
+                    type="text"
+                    placeholder="Enter your car name"
+                    @blur="validateCarName"
+                  />
+                  <span v-if="errors.name" class="text-danger">{{ errors.name }}</span>
+                </div>
+                <br />
+                <div class="form-group">
+                  <label>Price</label>
+                  <input
+                    v-model="car.price"
+                    class="form-control"
+                    type="text"
+                    placeholder="Enter the price you want to set"
+                    @blur="validatePrice"
+                  />
+                  <span v-if="errors.price" class="text-danger">{{ errors.price }}</span>
+                </div>
+                <br />
+                <div class="form-group">
+                  <label>Other Description</label>
+                  <input
+                    v-model="car.notation"
+                    class="form-control"
+                    type="text"
+                    placeholder="Identifying description (e.g., Defects, Scratch)"
+                    @blur="validateNotation"
+                  />
+                  <span v-if="errors.notation" class="text-danger">{{ errors.notation }}</span>
+                </div>
+                <br />
+                <div class="form-group">
+                  <label>Manufacturer</label>
+                  <input
+                    v-model="car.manufacturer"
+                    class="form-control"
+                    type="text"
+                    placeholder="Manufacturer name"
+                    @blur="validateManufacturer"
+                  />
+                  <span v-if="errors.manufacturer" class="text-danger">{{ errors.manufacturer }}</span>
+                </div>
+                <br />
+                <div class="form-group">
+                  <label>Manufacture Year</label>
+                  <input
+                    v-model="car.manufacturedYear"
+                    class="form-control"
+                    type="text"
+                    placeholder="Year of manufacture"
+                    @blur="validateManufacturedYear"
+                  />
+                  <span v-if="errors.manufacturedYear" class="text-danger">{{ errors.manufacturedYear }}</span>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Register</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -154,3 +157,14 @@ export default {
   },
 }
 </script>
+<style>
+.background-container {
+  background-image: url('@/assets/Designer.jpeg'); /* Adjust the path as needed */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  position: relative;
+  opacity: 0.8;
+}
+</style>

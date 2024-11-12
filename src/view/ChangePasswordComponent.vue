@@ -1,39 +1,42 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">Change Password</div>
-          <div class="card-body">
-            <form @submit.prevent="changePassword">
-              <div class="form-group">
-                <label>Old Password:</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  v-model="passwordChangeRequest.oldPassword"
-                  placeholder="Old Password"
-                  @blur="validateOldPassword"
-                  required
-                />
-                <span v-if="errors.oldPassword" class="text-danger">{{ errors.oldPassword }}</span>
-              </div>
-              <br />
-              <div class="form-group">
-                <label>New Password:</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  v-model="passwordChangeRequest.newPassword"
-                  placeholder="New Password"
-                  @blur="validateNewPassword"
-                  required
-                />
-                <span v-if="errors.newPassword" class="text-danger">{{ errors.newPassword }}</span>
-              </div>
-              <br />
-              <button type="submit" class="btn btn-primary">Change Password</button>
-            </form>
+  <div class="background-container">
+    <br />
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">Change Password</div>
+                <div class="card-body">
+                  <form @submit.prevent="changePassword">
+                  <div class="form-group">
+                  <label>Old Password:</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="passwordChangeRequest.oldPassword"
+                    placeholder="Old Password"
+                    @blur="validateOldPassword"
+                    required
+                  />
+                  <span v-if="errors.oldPassword" class="text-danger">{{ errors.oldPassword }}</span>
+                  </div>
+                  <br />
+                  <div class="form-group">
+                  <label>New Password:</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="passwordChangeRequest.newPassword"
+                    placeholder="New Password"
+                    @blur="validateNewPassword"
+                    required
+                  />
+                  <span v-if="errors.newPassword" class="text-danger">{{ errors.newPassword }}</span>
+                  </div>
+                  <br />
+                <button type="submit" class="btn btn-primary">Change Password</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -92,3 +95,14 @@ export default {
   },
 }
 </script>
+<style>
+.background-container {
+  background-image: url('@/assets/Designer.jpeg'); /* Adjust the path as needed */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  position: relative;
+  opacity: 0.8;
+}
+</style>

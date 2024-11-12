@@ -24,11 +24,21 @@ export default {
 </script>
 
 <style scoped>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 .navbar {
   display: flex;
   justify-content: flex-end;
   background-color: #333;
   padding: 1rem;
+  margin: 0; /* Ensure no margin */
+  position: fixed; /* Fix the navbar at the top */
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it stays above other content */
 }
 .nav-list {
   list-style: none;

@@ -1,17 +1,21 @@
 <template>
-  <div>
+  <div class="background-container">
     <input v-model="searchQuery" placeholder="Search cars by name, notation, etc." class="search-box" />
     <br/>
-    <label for="priceRange">Price Range: {{ priceRange[0] }} ฿ - {{ priceRange[1] }} ฿</label>
-    <input type="range" v-model="priceRange[0]" min="0" max="2000" step="10" />
-    <input type="range" v-model="priceRange[1]" min="0" max="2000" step="10" />
+    <label class="rangelabel" for="priceRange">Price Range: {{ priceRange[0] }} ฿ - {{ priceRange[1] }} ฿</label>
+    <div class="slider">
+      <input type="range" v-model="priceRange[0]" :min="minPrice" :max="priceRange[1]" step="10" />
+      <input type="range" v-model="priceRange[1]" :min="priceRange[0]" :max="maxPrice" step="10" />
+    </div>
     <br/>
-    <label for="yearRange">Manufactured Year Range: {{ yearRange[0] }} - {{ yearRange[1] }}</label>
-    <input type="range" v-model="yearRange[0]" min="1920" max="2024" step="1" />
-    <input type="range" v-model="yearRange[1]" min="1920" max="2024" step="1" />
+    <label class="rangelabel" for="yearRange">Manufactured Year Range: {{ yearRange[0] }} - {{ yearRange[1] }}</label>
+    <div class="slider">    
+      <input type="range" v-model="yearRange[0]" :min="minYear" :max="yearRange[1]" step="1" />
+      <input type="range" v-model="yearRange[1]" :min="yearRange[0]" :max="maxYear" step="1" />
+    </div>
     <br/>
     <div v-if="filteredCars.length > 0">
-      <table>
+      <table class="table">
         <thead>
           <tr>
             <th @click="sort('carId')">ID</th>
@@ -61,7 +65,11 @@ export default {
     return {
       searchQuery: '',
       priceRange: [0, 2000],
+      minPrice:0,
+      maxPrice:2000,
       yearRange: [1920, 2024],
+      minYear:1920,
+      maxYear:2024,
       cars: [],
       currentPage: 1,
       pageSize: 15,
@@ -81,6 +89,7 @@ export default {
       );
     },
     sortedCars() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       return this.filteredCars.sort((a, b) => {
         let modifier = this.sortOrder === 'asc' ? 1 : -1;
         if (a[this.sortKey] < b[this.sortKey]) return -1 * modifier;
@@ -157,11 +166,21 @@ export default {
 </script>
 
 <style scoped>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 .navbar {
   display: flex;
   justify-content: flex-end;
   background-color: #333;
   padding: 1rem;
+  margin: 0; /* Ensure no margin */
+  position: fixed; /* Fix the navbar at the top */
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it stays above other content */
 }
 .nav-list {
   list-style: none;
@@ -183,13 +202,13 @@ export default {
   background-color: #555;
 }
 table {
-  width: 100%;
+  width: 95%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
 th,
 td {
-  border: 1px solid #ddd;
+  border: 1px solid #333333;
   padding: 8px;
 }
 th {
@@ -209,5 +228,36 @@ th {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px; /* Adds space above the pagination controls */
+}
+.slider {
+  position: relative;
+  margin-left: 20px;
+  width: 300px;
+}
+.slider input[type="range"] {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+}
+.slider input[type="range"]::-webkit-slider-thumb {
+  pointer-events: all;
+  position: relative;
+  z-index: 1;
+}
+.rangelabel{
+  margin-left: 20px;
+}
+.table{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.background-container {
+  background-image: url('@/assets/Designer.jpeg'); /* Adjust the path as needed */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  position: relative;
+  opacity: 0.8;
 }
 </style>
