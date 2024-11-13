@@ -1,19 +1,19 @@
 <template>
-  <div class="background-container">
     <input v-model="searchQuery" placeholder="Search cars by name, notation, etc." class="search-box" />
     <br/>
-    <label class="rangelabel" for="priceRange">Price Range: {{ priceRange[0] }} ฿ - {{ priceRange[1] }} ฿</label>
-    <div class="slider">
-      <input type="range" v-model="priceRange[0]" :min="minPrice" :max="priceRange[1]" step="10" />
-      <input type="range" v-model="priceRange[1]" :min="priceRange[0]" :max="maxPrice" step="10" />
+    <div class="slider-container">    
+      <label class="rangelabel" for="priceRange">Price Range: {{ priceRange[0] }} ฿ - {{ priceRange[1] }} ฿</label>
+      <div class="slider">
+        <input type="range" v-model="priceRange[0]" :min="minPrice" :max="priceRange[1]" step="10" />
+        <input type="range" v-model="priceRange[1]" :min="priceRange[0]" :max="maxPrice" step="10" />
+      </div>
+      <br/>
+      <label class="rangelabel" for="yearRange">Manufactured Year Range: {{ yearRange[0] }} - {{ yearRange[1] }}</label>
+      <div class="slider">    
+        <input type="range" v-model="yearRange[0]" :min="minYear" :max="yearRange[1]" step="1" />
+        <input type="range" v-model="yearRange[1]" :min="yearRange[0]" :max="maxYear" step="1" />
     </div>
-    <br/>
-    <label class="rangelabel" for="yearRange">Manufactured Year Range: {{ yearRange[0] }} - {{ yearRange[1] }}</label>
-    <div class="slider">    
-      <input type="range" v-model="yearRange[0]" :min="minYear" :max="yearRange[1]" step="1" />
-      <input type="range" v-model="yearRange[1]" :min="yearRange[0]" :max="maxYear" step="1" />
-    </div>
-    <br/>
+    <br/></div>
     <div v-if="filteredCars.length > 0">
       <table class="table">
         <thead>
@@ -52,7 +52,6 @@
       </div>
     </div>
     <div v-else>Loading...</div>
-  </div>
 </template>
 
 <script>
@@ -72,7 +71,7 @@ export default {
       maxYear:2024,
       cars: [],
       currentPage: 1,
-      pageSize: 15,
+      pageSize: 10,
       sortKey: 'carId',
       sortOrder: 'asc',
       totalPages: 0
@@ -259,5 +258,13 @@ th {
   height: 100vh; /* Full viewport height */
   position: relative;
   opacity: 0.8;
+}
+.slider-container {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 20px; /* Padding inside the container */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 400px; /* Optional: limit the width */
+  margin-left: 20px; /* Center the container */
 }
 </style>

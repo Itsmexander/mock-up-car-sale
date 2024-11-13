@@ -1,5 +1,4 @@
 <template>
-  <div class="background-container">
     <br />
       <div class="container mt-5">
         <div class="row justify-content-center">
@@ -41,7 +40,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>

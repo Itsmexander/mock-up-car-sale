@@ -1,7 +1,6 @@
 <template>
-  <div class="background-container">
-    <br />
-    <div class="container mt-5">
+  <br />
+  <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
@@ -90,7 +89,6 @@
       </div>
     </div>
   </div>
-  </div>  
 </template>
 
 <script>
